@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  tacticrl:
+    build: .
+    image: tacticrl:latest
+    container_name: tacticrl
+
+    # Mount your local folder into the container.
+    # Edit files with Claude Code on your laptop — changes appear instantly inside Docker.
+    volumes:
+      - .:/app
+      - tacticrl-checkpoints:/app/checkpoints
+      - tacticrl-runs:/app/runs
+
+    # Keeps the container alive so you can exec into it
+    stdin_open: true
+    tty: true
+
+    environment:
+      - SDL_VIDEODRIVER=offscreen
+      - SDL_AUDIODRIVER=dummy
+      - PYTHONUNBUFFERED=1
+
+    ports:
+      - "6006:6006"
+
+    # Uncomment if you have an NVIDIA GPU + nvidia-container-toolkit installed
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+volumes:
+  tacticrl-checkpoints:
+  tacticrl-runs:

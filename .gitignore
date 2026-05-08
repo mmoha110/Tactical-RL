@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments (use full paths to avoid matching tacticrl/env/)
+tacticrl_venv/
+venv/
+.venv/
+/env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Training artifacts
+checkpoints/
+runs/
+outputs/
+/tmp/tacticrl_logs/
+
+# Data cache (large files)
+tacticrl/data/outputs/*.pkl
+tacticrl/data/outputs/*.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,38 @@
+env:
+  name: academy_3_vs_1_with_keeper  # Start simple, upgrade to 5v5 after baseline works
+  render: false
+  tactical_interval: 50
+
+ppo:
+  learning_rate: 3.0e-4
+  n_steps: 2048         # Steps per env per update
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.993          # High gamma important for soccer (long episodes)
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01        # Entropy bonus — keeps exploration alive
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  policy: MlpPolicy
+
+training:
+  total_timesteps: 2_000_000   # 500K for CPU laptop; increase to 5M on GPU
+  save_freq: 100_000
+  eval_freq: 50_000
+  eval_episodes: 20
+  checkpoint_dir: checkpoints/
+  tensorboard_log: runs/
+
+curriculum:
+  enabled: true
+  self_play_start_step: 500_000   # Start self-play after 500K steps vs built-in bots
+  opponent_snapshot_freq: 200_000  # Snapshot opponent every 200K steps
+  bot_difficulty_schedule: [1, 2, 3]  # Difficulty levels, advance when win_rate > 0.6
+
+reward_weights:
+  goal_scored: 1.0
+  goal_conceded: -1.0
+  possession_bonus: 0.001
+  pressing_success: 0.05
+  formation_switch_penalty: -0.01
